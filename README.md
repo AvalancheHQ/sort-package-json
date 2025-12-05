@@ -1,4 +1,18 @@
+<div align="center">
+
 # sort-package-json
+
+[![Crates.io][crates-badge]][crates-url]
+[![Docs.rs][docs-badge]][docs-url]
+
+[![MIT licensed][license-badge]][license-url]
+[![Build Status][ci-badge]][ci-url]
+[![Code Coverage][code-coverage-badge]][code-coverage-url]
+[![CodSpeed Badge][codspeed-badge]][codspeed-url]
+[![Sponsors][sponsors-badge]][sponsors-url]
+[![Discord chat][discord-badge]][discord-url]
+
+</div>
 
 A Rust implementation of [sort-package-json](https://github.com/keithamus/sort-package-json) that sorts package.json files according to well-established npm conventions.
 
@@ -58,7 +72,7 @@ While investigating performance optimizations, we considered using [simd-json](h
 
 ### 1. No preserve_order Support
 
-Our sorting algorithm requires maintaining custom insertion order. We insert fields in a specific sequence (known fields ’ unknown fields ’ private fields) and need the Map to preserve that exact order during serialization.
+Our sorting algorithm requires maintaining custom insertion order. We insert fields in a specific sequence (known fields ï¿½ unknown fields ï¿½ private fields) and need the Map to preserve that exact order during serialization.
 
 simd-json lacks the equivalent of serde_json's `preserve_order` feature, which uses IndexMap to maintain insertion order. Without this, the Map implementation would re-sort keys alphabetically, completely breaking our field ordering logic.
 
@@ -135,3 +149,28 @@ MIT
 - [Original sort-package-json (JavaScript)](https://github.com/keithamus/sort-package-json)
 - [simd-json issue #437 - Big Endian Compatibility](https://github.com/simd-lite/simd-json/issues/437)
 - [Surprises in the Rust JSON Ecosystem](https://ecton.dev/rust-json-ecosystem/)
+
+## [Sponsored By](https://github.com/sponsors/Boshen)
+
+<p align="center">
+  <a href="https://github.com/sponsors/Boshen">
+    <img src="https://raw.githubusercontent.com/Boshen/sponsors/main/sponsors.svg" alt="My sponsors" />
+  </a>
+</p>
+
+[discord-badge]: https://img.shields.io/discord/1079625926024900739?logo=discord&label=Discord
+[discord-url]: https://discord.gg/9uXCAwqQZW
+[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
+[license-url]: https://github.com/oxc-project/sort-package-json/blob/main/LICENSE
+[ci-badge]: https://github.com/oxc-project/sort-package-json/actions/workflows/ci.yml/badge.svg?event=push&branch=main
+[ci-url]: https://github.com/oxc-project/sort-package-json/actions/workflows/ci.yml?query=event%3Apush+branch%3Amain
+[code-coverage-badge]: https://codecov.io/github/oxc-project/sort-package-json/branch/main/graph/badge.svg
+[code-coverage-url]: https://codecov.io/gh/oxc-project/sort-package-json
+[sponsors-badge]: https://img.shields.io/github/sponsors/Boshen
+[sponsors-url]: https://github.com/sponsors/Boshen
+[codspeed-badge]: https://img.shields.io/endpoint?url=https://codspeed.io/badge.json
+[codspeed-url]: https://codspeed.io/oxc-project/sort-package-json
+[crates-badge]: https://img.shields.io/crates/d/sort-package-json?label=crates.io
+[crates-url]: https://crates.io/crates/sort-package-json
+[docs-badge]: https://img.shields.io/docsrs/sort-package-json
+[docs-url]: https://docs.rs/sort-package-json
