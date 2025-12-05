@@ -51,6 +51,7 @@ serde_json = { version = "1.0", features = ["preserve_order"] }
 
 [dev-dependencies]
 insta = "1.41"
+criterion = { package = "codspeed-criterion-compat", version = "4.1.0" }
 
 [profile.release]
 # Configurations explicitly listed here for clarity.
@@ -61,3 +62,7 @@ codegen-units = 1
 strip = "symbols" # set to `false` for debug information
 debug = false # set to `true` for debug information
 panic = "abort" # Let it crash and force ourselves to write safe Rust.
+
+[[bench]]
+name = "sort_benchmark"
+harness = false
