@@ -124,14 +124,64 @@ pub fn sort_package_json(input: &str) -> Result<String, serde_json::Error> {
   serde_json::to_string_pretty(&sorted_value)
 }
 
+fn sort_object_alphabetically(obj: &Map<String, Value>) -> Map<String, Value> {
+  let mut keys: Vec<&String> = obj.keys().collect();
+  keys.sort();
+
+  let mut result = Map::new();
+  for key in keys {
+    if let Some(value) = obj.get(key) {
+      result.insert(key.clone(), value.clone());
+    }
+  }
+  result
+}
+
+fn sort_object_recursive(obj: &Map<String, Value>) -> Map<String, Value> {
+  let mut keys: Vec<&String> = obj.keys().collect();
+  keys.sort();
+
+  let mut result = Map::new();
+  for key in keys {
+    if let Some(value) = obj.get(key) {
+      let transformed_value = match value {
+        Value::Object(nested) => Value::Object(sort_object_recursive(nested)),
+        _ => value.clone(),
+      };
+      result.insert(key.clone(), transformed_value);
+    }
+  }
+  result
+}
+
 fn sort_object_keys(obj: Map<String, Value>) -> Map<String, Value> {
   let mut result = Map::new();
   let mut remaining_keys: Vec<String> = obj.keys().cloned().collect();
 
-  // First, add fields in the order specified by FIELDS_ORDER
+  // Process fields in FIELDS_ORDER with inline transformations
   for &field in FIELDS_ORDER {
     if let Some(value) = obj.get(field) {
-      result.insert(field.to_string(), value.clone());
+      let transformed = match (field, value) {
+        // Dependency-like fields - alphabetically sorted
+        (
+          "dependencies" | "devDependencies" | "peerDependencies" | "optionalDependencies"
+          | "resolutions" | "overrides" | "engines" | "publishConfig" | "config" | "bin",
+          Value::Object(obj),
+        ) => Value::Object(sort_object_alphabetically(obj)),
+
+        // Config objects - recursively sorted
+        (
+          "babel" | "jest" | "mocha" | "nyc" | "c8" | "ava" | "eslintConfig" | "prettier"
+          | "stylelint" | "nodemonConfig" | "browserify" | "xo" | "husky" | "commitlint"
+          | "remarkConfig" | "volta" | "oclif",
+          Value::Object(obj),
+        ) => Value::Object(sort_object_recursive(obj)),
+
+        // No transformation needed
+        _ => value.clone(),
+      };
+
+      result.insert(field.to_string(), transformed);
       remaining_keys.retain(|k| k != field);
     }
   }

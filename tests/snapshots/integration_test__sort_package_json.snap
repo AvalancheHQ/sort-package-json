@@ -36,18 +36,28 @@ expression: result
     "lint": "eslint .",
     "dev": "webpack serve"
   },
+  "babel": {
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ],
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "dependencies": {
-    "react": "^18.0.0",
+    "axios": "^1.0.0",
     "lodash": "^4.17.21",
-    "axios": "^1.0.0"
+    "react": "^18.0.0"
   },
   "devDependencies": {
     "jest": "^29.0.0",
-    "webpack": "^5.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "webpack": "^5.0.0"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   },
   "publishConfig": {
     "access": "public"
