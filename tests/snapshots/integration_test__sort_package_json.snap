@@ -7,34 +7,68 @@ expression: result
   "version": "1.0.0",
   "description": "A test package for sorting",
   "keywords": [
-    "test",
     "example",
-    "sorting"
+    "json",
+    "sorting",
+    "test"
   ],
   "homepage": "https://github.com/test/test-package#readme",
   "bugs": {
-    "url": "https://github.com/test/test-package/issues"
+    "url": "https://github.com/test/test-package/issues",
+    "email": "bugs@example.com"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/test/test-package"
   },
   "license": "MIT",
-  "author": "Test Author",
+  "author": {
+    "name": "Test Author",
+    "email": "author@example.com",
+    "url": "https://example.com"
+  },
+  "maintainers": [
+    {
+      "name": "Maintainer One",
+      "email": "maintainer1@example.com",
+      "url": "https://maintainer1.com"
+    },
+    {
+      "name": "Maintainer Two",
+      "email": "maintainer2@example.com",
+      "url": "https://maintainer2.com"
+    }
+  ],
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
-      "require": "./dist/index.js"
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json",
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.esm.js",
+      "default": "./dist/utils.js"
     }
   },
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist",
+    "src"
+  ],
   "scripts": {
-    "test": "jest",
     "build": "webpack",
+    "dev": "webpack serve",
     "lint": "eslint .",
-    "dev": "webpack serve"
+    "posttest": "echo 'Tests complete'",
+    "pretest": "echo 'Starting tests'",
+    "test": "jest"
   },
   "babel": {
     "plugins": [
