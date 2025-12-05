@@ -51,6 +51,11 @@ serde_json = { version = "1.0", features = ["preserve_order"] }
 
 [dev-dependencies]
 insta = "1.41"
+criterion = { version = "0.5", package = "codspeed-criterion-compat" }
+
+[[bench]]
+name = "sort_package_json"
+harness = false
 
 [profile.release]
 # Configurations explicitly listed here for clarity.
