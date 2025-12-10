@@ -50,6 +50,7 @@ infinite_loop = "warn"
 serde_json = { version = "1.0", features = ["preserve_order"] }
 
 [dev-dependencies]
+codspeed-criterion-compat = "4.1.0"
 insta = "1.41"
 
 [profile.release]
@@ -61,3 +62,7 @@ codegen-units = 1
 strip = "symbols" # set to `false` for debug information
 debug = false # set to `true` for debug information
 panic = "abort" # Let it crash and force ourselves to write safe Rust.
+
+[[bench]]
+name = "sort_benchmarks"
+harness = false
