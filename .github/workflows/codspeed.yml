@@ -1,0 +1,38 @@
+name: CodSpeed Benchmarks
+permissions:
+  contents: read
+  id-token: write
+'on':
+  workflow_dispatch: null
+  push:
+    branches:
+    - main
+  pull_request:
+    types:
+    - opened
+    - synchronize
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha
+    }}
+  cancel-in-progress: ${{ github.ref_name != 'main' }}
+defaults:
+  run:
+    shell: bash
+jobs:
+  benchmarks:
+    name: Run Benchmarks
+    runs-on: ubuntu-latest
+    steps:
+    - uses: taiki-e/checkout-action@b13d20b7cda4e2f325ef19895128f7ff735c0b3d
+    - uses: oxc-project/setup-rust@ecabb7322a2ba5aeedb3612d2a40b86a85cee235
+      with:
+        save-cache: ${{ github.ref_name == 'main' }}
+        bins: cargo-codspeed
+    - name: Build benchmarks
+      run: cargo codspeed build
+    - name: Run benchmarks with CodSpeed
+      uses: CodSpeedHQ/action@4.4.1
+      with:
+        upload-url: ${{ secrets.CODSPEED_FRANCOIS_DEV_UPLOAD_URL }}
+        mode: simulation
+        run: cargo codspeed run
