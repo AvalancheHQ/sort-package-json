@@ -1,0 +1,32 @@
+name: CodSpeed Benchmarks
+permissions:
+  contents: read
+  id-token: write
+'on':
+  workflow_dispatch: null
+  push:
+    branches:
+    - main
+  pull_request:
+    types:
+    - opened
+    - synchronize
+jobs:
+  benchmarks:
+    name: Run benchmarks
+    runs-on: ubuntu-latest
+    steps:
+    - uses: taiki-e/checkout-action@b13d20b7cda4e2f325ef19895128f7ff735c0b3d
+    - uses: moonrepo/setup-rust@ede6de059f8046a5e236c94046823e2af11ca670
+      with:
+        channel: stable
+        cache-target: release
+        bins: cargo-codspeed
+    - name: Build benchmarks
+      run: cargo codspeed build
+    - name: Run benchmarks
+      uses: CodSpeedHQ/action@346a2d8a8d9d38909abd0bc3d23f773110f076ad
+      with:
+        upload-url: ${{ secrets.CODSPEED_FRANCOIS_DEV_UPLOAD_URL }}
+        mode: simulation
+        run: cargo codspeed run
